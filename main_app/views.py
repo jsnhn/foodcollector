@@ -1,9 +1,6 @@
 from django.shortcuts import render
 
-foods = [
-  {'name': 'Mcdonalds', 'meals': 'Big Mac', 'review': 'Very average', 'rating': 5},
-  {'name': 'In n Out', 'meals': 'Double Double', 'review': 'Super tasty', 'rating': 10},
-]
+
 
 # Create your views here.
 def home(request):
