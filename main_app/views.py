@@ -14,3 +14,9 @@ def foods_index(request):
     return render(request, 'foods/index.html', {
         'foods': foods
     })
+
+def foods_detail(request, food_id):
+    food = Food.objects.get(id=food_id)
+    return render(request, 'foods/detail.html', {
+        'food': food
+    })
