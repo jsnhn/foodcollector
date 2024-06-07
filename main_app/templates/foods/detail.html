@@ -11,6 +11,10 @@
         <p>Rating: {{ food.rating }}</p>
         <p>Vegetarian: {{ food.vegetarian }}</p>  
     </div>
+    <div class="card-action">
+        <a href="{% url 'foods_update' food.id %}">Edit</a>
+        <a href="{% url 'foods_delete' food.id %}">Delete</a>
+    </div>
 </div>
 
 
