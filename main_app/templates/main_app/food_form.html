@@ -8,5 +8,26 @@
             {{ form.as_table }}
         </table>
         <input type="submit" value="Submit!" class="btn">
-    </form>ß
+    </form>
+    <script type="text/javascript">
+        const food = '{{ food }}'
+        const rowStr = `
+            <tr>
+                <th>
+                    <label>
+                        <input type="checkbox" name="vegetarian" id="id_vegetarian" ${food && '{{food.vegetarian}}' ? 'checked' : ''}>
+                        <span>Vegetarian</span>
+                    </label>
+                </th>
+                <td></td>
+            </tr>
+        `
+        document.querySelector('table').innerHTML += rowStr // concatinating html strings
+
+    //    const vegCheckBox = document.getElementById('id_vegetarian');
+    //    const vegLabel =  document.querySelector('label[for=id_vegetarian]')
+    //    vegLabel.removeAttribute('for')
+    //    vegLabel.innerHTML = '<span>Vegetarian</span>'
+    //    vegLabel.prepend(vegCheckBox)
+    </script>
 {% endblock %}

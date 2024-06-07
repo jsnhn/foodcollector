@@ -24,4 +24,5 @@ def foods_detail(request, food_id):
 
 class FoodCreate(CreateView):
     model = Food
-    fields = '__all__'
+    fields = ['name', 'cuisine', 'review', 'rating']
+    success_url = '/foods/{id}'

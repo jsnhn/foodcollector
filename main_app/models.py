@@ -1,12 +1,25 @@
 from django.db import models
+from django.urls import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Food(models.Model):
     name = models.CharField(max_length=100)
     cuisine = models.CharField(max_length=100)
     review = models.TextField(max_length=250)
-    rating = models.DecimalField(max_digits=2, decimal_places=1)
-    vegitarian = models.BooleanField(default=False)
+    rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(10)
+        ]
+    ) 
+    vegetarian = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'food_id': self.id})
+        # Think of the reverse() function as the code equivalent to the url template tag. It returns the correct path for the detail
