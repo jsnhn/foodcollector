@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Food
 
 
@@ -26,3 +26,11 @@ class FoodCreate(CreateView):
     model = Food
     fields = ['name', 'cuisine', 'review', 'rating']
     # success_url = '/foods/{id}'
+
+class FoodUpdate(UpdateView):
+    model = Food
+    fields = ['cuisine', 'review', 'rating', 'vegetarian']
+
+class FoodDelete(DeleteView):
+    model = Food
+    success_url = '/foods'
