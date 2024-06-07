@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from .models import Food
 
 
@@ -20,3 +21,7 @@ def foods_detail(request, food_id):
     return render(request, 'foods/detail.html', {
         'food': food
     })
+
+class FoodCreate(CreateView):
+    model = Food
+    fields = '__all__'
