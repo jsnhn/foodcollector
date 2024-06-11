@@ -6,7 +6,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Food(models.Model):
     name = models.CharField(max_length=100)
     cuisine = models.CharField(max_length=100)
-    review = models.TextField(max_length=250)
     rating = models.DecimalField(
         max_digits=3,
         decimal_places=1,
@@ -23,3 +22,4 @@ class Food(models.Model):
     def get_absolute_url(self):
         return reverse('detail', kwargs={'food_id': self.id})
         # Think of the reverse() function as the code equivalent to the url template tag. It returns the correct path for the detail
+
