@@ -3,16 +3,41 @@
 
 <h1>Food Details</h1>
 
-<div class="card">
-    <div class="card-content">
-        <span class="card-title">{{ food.name }}</span>
-        <p>Cuisine: {{ food.cuisine }}</p>
-        <p>Vegetarian: {{ food.vegetarian }}</p>  
+
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ food.name }}</span>
+                <p>Cuisine: {{ food.cuisine }}</p>
+                <p>Vegetarian: {{ food.vegetarian }}</p>  
+            </div>
+            <div class="card-action">
+                <a href="{% url 'foods_update' food.id %}">Edit</a>
+                <a href="{% url 'foods_delete' food.id %}">Delete</a>
+        </div>
     </div>
-    <div class="card-action">
-        <a href="{% url 'foods_update' food.id %}">Edit</a>
-        <a href="{% url 'foods_delete' food.id %}">Delete</a>
-    </div>
+</div>
+    <div class="col s6">
+        <table class="striped">
+          <thead>
+            <tr>
+                <th>Date</th>
+                <th>Review</th>
+                <th>Rating</th>
+        </tr>
+          </thead>
+          <tbody>
+            {% for review in food.review_set.all %}
+              <tr>
+                <td>{{review.date}}</td>
+                <td>{{review.text}}</td>
+                <td>{{review.rating}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 </div>
 
 
