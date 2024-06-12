@@ -16,7 +16,7 @@ class Food(models.Model):
         # Think of the reverse() function as the code equivalent to the url template tag. It returns the correct path for the detail
 
 class Review(models.Model):
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
     text = models.CharField(max_length=500)
     rating = models.DecimalField(
         max_digits=3,
@@ -31,3 +31,6 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.rating} on {self.date}"
+    
+    class Meta:
+        ordering = ['-date']
