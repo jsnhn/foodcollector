@@ -3,6 +3,15 @@ from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('ingredient_detail', kwargs={'pk': self.id})
+    
 class Food(models.Model):
     name = models.CharField(max_length=100)
     cuisine = models.CharField(max_length=100)

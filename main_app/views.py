@@ -35,7 +35,7 @@ def add_review(request, food_id):
 
 class FoodCreate(CreateView):
     model = Food
-    fields = ['name', 'cuisine', 'review', 'rating']
+    fields = ['name', 'cuisine']
     # success_url = '/foods/{id}'
 
 class FoodUpdate(UpdateView):
