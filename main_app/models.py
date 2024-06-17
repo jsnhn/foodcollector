@@ -16,6 +16,7 @@ class Food(models.Model):
     name = models.CharField(max_length=100)
     cuisine = models.CharField(max_length=100)
     vegetarian = models.BooleanField(default=False)
+    ingredients = models.ManyToManyField(Ingredient)
 
     def __str__(self):
         return self.name
