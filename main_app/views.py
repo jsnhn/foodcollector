@@ -52,3 +52,13 @@ class IngredientList(ListView):
 
 class IngredientDetail(DetailView):
     model = Ingredient
+
+class IngredientCreate(CreateView):
+    model = Ingredient
+    fields = '__all__'
+
+class IngredientUpdate(UpdateView):
+    model = Ingredient
+
+class IngredientDelete(DeleteView):
+    model = Ingredient

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if ingredient %}
+        <h1>Edit <span style="color: {{ingredient.color|lower}}">{{ingredient.name}}</span></h1>
+    {% else %}
+    <h1>Add ingredient</h1>
+    {% endif %}
+
+    <form action="" method="POST"> <!--action is empty because it will make the request on the page you are currently on-->
+        {% csrf_token %} 
+        <!-- ^this will be in every form. tokem is an ecrypted sting originates from our server. security practice-->
+        <table>
+            {{ form.as_table }} <!--the form variable is an isntances. form is the object that represents our table. as table will create a table for us-->
+        </table>
+        <input type="submit" value="Submit!" class="btn">
+    </form>
+
+{% endblock %}
