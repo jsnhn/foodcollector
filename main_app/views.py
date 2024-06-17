@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Food
+from django.views.generic import ListView, DetailView
+from .models import Food, Ingredient
 from .forms import ReviewForm
 
 
@@ -46,3 +47,8 @@ class FoodDelete(DeleteView):
     model = Food
     success_url = '/foods'
 
+class IngredientList(ListView):
+    model = Ingredient
+
+class IngredientDetail(DetailView):
+    model = Ingredient
