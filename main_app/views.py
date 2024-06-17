@@ -59,6 +59,8 @@ class IngredientCreate(CreateView):
 
 class IngredientUpdate(UpdateView):
     model = Ingredient
+    fields = ['name']
 
 class IngredientDelete(DeleteView):
     model = Ingredient
+    success_url = '/ingredients'
