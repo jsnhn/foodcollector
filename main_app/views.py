@@ -71,3 +71,7 @@ class IngredientDelete(DeleteView):
 def assoc_ingredient(request, food_id, ingredient_id):
     Food.objects.get(id=food_id).ingredients.add(ingredient_id)
     return redirect('detail', food_id=food_id)
+
+def unassoc_ingredient(request, food_id, ingredient_id):
+    Food.objects.get(id=food_id).ingredients.remove(ingredient_id)
+    return redirect('detail', food_id=food_id)

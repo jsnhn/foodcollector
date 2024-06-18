@@ -63,6 +63,12 @@
                         <span class="card-title">
                             <span style="color: {{ ingredient.color }}">{{ ingredient.color }}</span> {{ ingredient.name }}
                         </span>
+                        <div class="card-action">
+                            <form action="{% url 'unassoc_ingredient' food.id ingredient.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn">Remove</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
