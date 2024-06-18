@@ -3,7 +3,6 @@
 
 <h1>Food Details</h1>
 
-
 <div class="row">
     <div class="col s6">
         <div class="card">
@@ -15,9 +14,10 @@
             <div class="card-action">
                 <a href="{% url 'foods_update' food.id %}">Edit</a>
                 <a href="{% url 'foods_delete' food.id %}">Delete</a>
+            </div>
         </div>
     </div>
-</div>
+
     <div class="col s6">
         <form action="{% url 'add_review' food.id %}" method="POST">
             {% csrf_token %}
@@ -25,30 +25,73 @@
             <input type="submit" class="btn" value="Add Review">
         </form>
         <br>
-        {% if food.review_for_today %}
+        {% if not food.review_for_today %}
             <div class="card-panel teal-text center-align">{{food.name}} has no review</div>
         {% else %}
             <div class="card-panel red-text center-align">Check out the reviews for {{food.name}}</div>
         {% endif %}
         <table class="striped">
             <thead>
-            <tr>
-                <th>Date</th>
-                <th>Review</th>
-                <th>Rating</th>
-        </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Review</th>
+                    <th>Rating</th>
+                </tr>
             </thead>
             <tbody>
-            {% for review in food.review_set.all %}
-                <tr>
-                <td>{{review.date}}</td>
-                <td>{{review.text}}</td>
-                <td>{{review.rating}}</td>
-                </tr>
-            {% endfor %}
+                {% for review in food.review_set.all %}
+                    <tr>
+                        <td>{{ review.date }}</td>
+                        <td>{{ review.text }}</td>
+                        <td>{{ review.rating }}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
-      </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col s6">
+        <h3>{{ food.name }} Ingredients</h3>
+        {% if food.ingredients.count %}
+            {% for ingredient in food.ingredients.all %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <span style="color: {{ ingredient.color }}">{{ ingredient.color }}</span> {{ ingredient.name }}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5>No Ingredients</h5>
+        {% endif %}
+    </div>
+    <div class="col s6">
+        <h3>Available Ingredients</h3>
+        {% if ingredients.count %}
+            {% for ingredient in ingredients.all %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <span style="color: {{ ingredient.color }}">{{ ingredient.color }}</span> {{ ingredient.name }}
+                        </span>
+                    </div>
+                    <div class="card-action">
+                        <form action="{% url 'assoc_ingredient' food.id ingredient.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">Add</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5>{{ food.name }} Already Has All Ingredients Available</h5>
+        {% endif %}
+    </div>
 </div>
 
 <script>
@@ -60,6 +103,5 @@
         autoClose: true
     });
 </script>
-
 
 {% endblock %}

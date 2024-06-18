@@ -20,10 +20,13 @@ def foods_index(request):
 
 def foods_detail(request, food_id):
     food = Food.objects.get(id=food_id)
-    review_form = ReviewForm
+    id_list = food.ingredients.all().values_list('id')
+    ingredient_food_doesnt_have = Ingredient.objects.exclude(id__in=id_list)
+    review_form = ReviewForm()
     return render(request, 'foods/detail.html', {
         'food': food,
-        'review_form': review_form
+        'review_form': review_form,
+        'ingredients': ingredient_food_doesnt_have
     })
 
 def add_review(request, food_id):
@@ -64,3 +67,7 @@ class IngredientUpdate(UpdateView):
 class IngredientDelete(DeleteView):
     model = Ingredient
     success_url = '/ingredients'
+
+def assoc_ingredient(request, food_id, ingredient_id):
+    Food.objects.get(id=food_id).ingredients.add(ingredient_id)
+    return redirect('detail', food_id=food_id)
