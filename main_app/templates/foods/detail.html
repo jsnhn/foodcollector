@@ -24,6 +24,12 @@
             {{ review_form.as_p }}
             <input type="submit" class="btn" value="Add Review">
         </form>
+        <br>
+        {% if food.review_for_today %}
+            <div class="card-panel teal-text center-align">{{food.name}} has no review</div>
+        {% else %}
+            <div class="card-panel red-text center-align">Check out the reviews for {{food.name}}</div>
+        {% endif %}
         <table class="striped">
             <thead>
             <tr>

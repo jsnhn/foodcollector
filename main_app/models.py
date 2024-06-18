@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
+from datetime import date
 
 # Create your models here.
 class Ingredient(models.Model):
@@ -24,6 +25,9 @@ class Food(models.Model):
     def get_absolute_url(self):
         return reverse('detail', kwargs={'food_id': self.id})
         # Think of the reverse() function as the code equivalent to the url template tag. It returns the correct path for the detail
+
+    def review_for_today(self):
+        return self.review_set.filter(date=date.today()).count() >= self.review_set.all().count()
 
 class Review(models.Model):
     date = models.DateField()
