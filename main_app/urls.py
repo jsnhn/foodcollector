@@ -10,6 +10,7 @@ urlpatterns = [
     path('foods/<int:pk>/update/', views.FoodUpdate.as_view(), name='foods_update'),
     path('foods/<int:pk>/delete.', views.FoodDelete.as_view(), name='foods_delete'),
     path('foods/<int:food_id>/add_review/', views.add_review, name='add_review'),
+    path('foods/<int:food_id>/add_photo/', views.add_photo, name='add_photo'),
     path('foods/<int:food_id>/assoc_ingredient/<int:ingredient_id>/', views.assoc_ingredient, name='assoc_ingredient'),
     path('foods/<int:food_id>/unassoc_ingredient/<int:ingredient_id>/', views.unassoc_ingredient, name='unassoc_ingredient'),
     path('ingredients/', views.IngredientList.as_view(), name='ingredients_index'),
