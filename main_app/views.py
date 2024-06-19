@@ -6,6 +6,7 @@ from .forms import ReviewForm
 import uuid
 import boto3
 import os
+import requests
 
 
 # Create your views here.
@@ -13,7 +14,9 @@ def home(request):
     return render(request, "home.html")
 
 def about(request):
-    return render(request, "about.html")
+    response = requests.get('https://foodish-api.com/api/')
+    food_img = response.json().get('image') #fact or the none value because we are using get. if we use bracket it could display error
+    return render(request, "about.html", {'image': food_img})
 
 def foods_index(request):
     foods = Food.objects.all()
