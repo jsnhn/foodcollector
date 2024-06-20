@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 from .models import Food, Ingredient, Photo
 from .forms import ReviewForm
 import uuid
@@ -18,12 +22,15 @@ def about(request):
     food_img = response.json().get('image') #fact or the none value because we are using get. if we use bracket it could display error
     return render(request, "about.html", {'image': food_img})
 
+@login_required
 def foods_index(request):
-    foods = Food.objects.all()
+    # foods = Food.objects.all()
+    foods = Food.objects.filter(user=request.user)
     return render(request, 'foods/index.html', {
         'foods': foods
     })
 
+@login_required
 def foods_detail(request, food_id):
     food = Food.objects.get(id=food_id)
     id_list = food.ingredients.all().values_list('id')
@@ -35,6 +42,7 @@ def foods_detail(request, food_id):
         'ingredients': ingredient_food_doesnt_have
     })
 
+@login_required
 def add_review(request, food_id):
     form = ReviewForm(request.POST)
     if form.is_valid():
@@ -43,7 +51,7 @@ def add_review(request, food_id):
         new_review.save()
     return redirect('detail', food_id=food_id)
 
-class FoodCreate(CreateView):
+class FoodCreate(LoginRequiredMixin, CreateView):
     model = Food
     fields = ['name', 'cuisine']
     # success_url = '/foods/{id}'
@@ -52,40 +60,43 @@ class FoodCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class FoodUpdate(UpdateView):
+class FoodUpdate(LoginRequiredMixin, UpdateView):
     model = Food
     fields = ['cuisine', 'review', 'rating', 'vegetarian']
 
-class FoodDelete(DeleteView):
+class FoodDelete(LoginRequiredMixin, DeleteView):
     model = Food
     success_url = '/foods'
 
-class IngredientList(ListView):
+class IngredientList(LoginRequiredMixin, ListView):
     model = Ingredient
 
-class IngredientDetail(DetailView):
+class IngredientDetail(LoginRequiredMixin, DetailView):
     model = Ingredient
 
-class IngredientCreate(CreateView):
+class IngredientCreate(LoginRequiredMixin, CreateView):
     model = Ingredient
     fields = '__all__'
 
-class IngredientUpdate(UpdateView):
+class IngredientUpdate(LoginRequiredMixin, UpdateView):
     model = Ingredient
     fields = ['name']
 
-class IngredientDelete(DeleteView):
+class IngredientDelete(LoginRequiredMixin, DeleteView):
     model = Ingredient
     success_url = '/ingredients'
 
+@login_required
 def assoc_ingredient(request, food_id, ingredient_id):
     Food.objects.get(id=food_id).ingredients.add(ingredient_id)
     return redirect('detail', food_id=food_id)
 
+@login_required
 def unassoc_ingredient(request, food_id, ingredient_id):
     Food.objects.get(id=food_id).ingredients.remove(ingredient_id)
     return redirect('detail', food_id=food_id)
 
+@login_required
 def add_photo(request, food_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -100,3 +111,17 @@ def add_photo(request, food_id):
             print('An error occurred uploading file to S3')
             print(e)
     return redirect('detail', food_id=food_id)
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+        else:
+            error_message = 'Invalid sign up = try again'
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'registration/signup.html', context)
