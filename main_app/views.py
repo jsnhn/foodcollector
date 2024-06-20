@@ -48,6 +48,10 @@ class FoodCreate(CreateView):
     fields = ['name', 'cuisine']
     # success_url = '/foods/{id}'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 class FoodUpdate(UpdateView):
     model = Food
     fields = ['cuisine', 'review', 'rating', 'vegetarian']

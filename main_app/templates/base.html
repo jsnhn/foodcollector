@@ -20,10 +20,22 @@
         </ul>
         <ul class="right">
           <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="{% url 'foods_create' %}">Add a Food</a></li>
-          <li><a href="{% url 'index' %}">View All My Foods</a></li>
-          <li><a href="{% url 'ingredients_create' %}">Add an Ingredient</a></li>
-          <li><a href="{% url 'ingredients_index' %}">View All Ingredients</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'ingredients_create' %}">Add an Ingredient</a></li>
+            <li><a href="{% url 'ingredients_index' %}">View All Ingredients</a></li>
+            <li><a href="{% url 'foods_create' %}">Add a Food</a></li>
+            <li><a href="{% url 'index' %}">View All My Foods</a></li>
+            <li>
+              <a href="#">
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="submit-link">Log Out</button>
+                </form>
+              </a>
+            </li>
+          {% else %}
+            <li><a href="{% url 'login' %}"></a></li>
+          {% endif %}  
         </ul>
       </div>
     </nav>
